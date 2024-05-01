@@ -1,0 +1,60 @@
+{
+    "animals": [
+        {
+            "id": 1,
+            "apelido": "Leo",
+            "inicio_monitoramento": "2022-01-01",
+            "especie": "Lion",
+            "sexo": "Male",
+            "data_nascimento": "2019-05-15",
+            "historico": [
+                {
+                    "data_avaliacao": "2022-02-15",
+                    "temperatura": 37.5,
+                    "peso": 150,
+                    "altura": 180,
+                    "amostra": "Blood",
+                    "exame": "Blood test",
+                    "problema_saude": "None"
+                },
+                {
+                    "data_avaliacao": "2022-03-20",
+                    "temperatura": 38.2,
+                    "peso": 148,
+                    "altura": 175,
+                    "amostra": "Urine",
+                    "exame": "Urinalysis",
+                    "problema_saude": "None"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "apelido": "Molly",
+            "inicio_monitoramento": "2022-01-01",
+            "especie": "Elephant",
+            "sexo": "Female",
+            "data_nascimento": "2015-10-10",
+            "historico": [
+                {
+                    "data_avaliacao": "2022-02-15",
+                    "temperatura": 36.8,
+                    "peso": 5000,
+                    "altura": 300,
+                    "amostra": "Blood",
+                    "exame": "Blood test",
+                    "problema_saude": "None"
+                },
+                {
+                    "data_avaliacao": "2022-03-20",
+                    "temperatura": 37.2,
+                    "peso": 4800,
+                    "altura": 290,
+                    "amostra": "Urine",
+                    "exame": "Urinalysis",
+                    "problema_saude": "None"
+                }
+            ]
+        }
+    ]
+}
