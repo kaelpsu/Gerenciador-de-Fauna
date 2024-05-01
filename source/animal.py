@@ -1,5 +1,45 @@
+import json
+
+class Registro:
+    def __init__(self, data_avaliacao, temperatura, peso, altura, amostra, exame, problema_saude):
+        self.data_avaliacao = data_avaliacao
+        self.temperatura = temperatura
+        self.peso = peso
+        self.altura = altura
+        self.amostra = amostra
+        self.exame = exame
+        self.problema_saude = problema_saude
+
+    def to_dict(self):
+        return {
+            "data_avaliacao": self.data_avaliacao,
+            "temperatura": self.temperatura,
+            "peso": self.peso,
+            "altura": self.altura,
+            "amostra": self.amostra,
+            "exame": self.exame,
+            "problema_saude": self.problema_saude
+        }
+
+
+class Historico:
+    def __init__(self, log_list=None):
+        if log_list is None:
+            log_list = []
+        self.log_list = log_list
+
+    def addLog(self, log):
+        self.log_list.append(log)
+
+    def get_info(self):
+        return self.log_list
+
+    def to_dict(self):
+        return [log.to_dict() for log in self.log_list]
+
+
 class Animal:
-    def __init__(self, id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico=None):
+    def __init__(self, id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico=Historico([])):
         self.id = id
         self.apelido = apelido
         self.inicio_monitoramento = inicio_monitoramento
@@ -7,6 +47,9 @@ class Animal:
         self.sexo = sexo
         self.data_nascimento = data_nascimento
         self.historico = historico
+
+    def addLog(self, log):
+        self.historico.addLog(log)
 
     def print_info(self):
         print(f"ID: {self.id}")
@@ -17,25 +60,20 @@ class Animal:
         print(f"Data de Nascimento: {self.data_nascimento}")
 
         if self.historico:
-            print("Histórico:")
-            print(f"    Data da Avaliação: {self.historico.data_avaliacao}")
-            print(f"    Temperatura: {self.historico.temperatura}")
-            print(f"    Peso: {self.historico.peso}")
-            print(f"    Altura: {self.historico.altura}")
-            print(f"    Amostra de Sangue?: {self.historico.amostra}")
-            print(f"    Exame Ok?: {self.historico.exame}")
-            print(f"    Problema de Saúde: {self.historico.problema_saude}")
+            print("Histórico de Registros:")
+            print("Data\t\tTemperatura\t\tPeso\t\tAltura\t\tAmostra\t\tExame\t\tProblema de Saúde")
+            for log in self.historico.log_list:
+                print(f"{log.data_avaliacao}\t{log.temperatura}\t\t\t{log.peso}\t\t{log.altura}\t\t{log.amostra}\t\t{log.exame}\t{log.problema_saude}")
+        else:
+            print("Não há histórico disponível.")
 
-class Historico:
-    def __init__(self, data_avaliacao, temperatura, peso, altura, amostra, exame, problema_saude):
-        self.data_avaliacao = data_avaliacao
-        self.temperatura = temperatura
-        self.peso = peso
-        self.altura = altura
-        self.amostra = amostra
-        self.exame = exame
-        self.problema_saude = problema_saude
-
-    def get_info(self):
-        return [self.data_avaliacao, self.temperatura, self.peso, self.altura, self.amostra, self.exame, self.problema_saude]
-
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "apelido": self.apelido,
+            "inicio_monitoramento": self.inicio_monitoramento,
+            "especie": self.especie,
+            "sexo": self.sexo,
+            "data_nascimento": self.data_nascimento,
+            "historico": self.historico.to_dict()
+        }

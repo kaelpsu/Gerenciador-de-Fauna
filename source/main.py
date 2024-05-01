@@ -1,17 +1,20 @@
 from avl_tree import ArvoreAVL
-from animal import Animal, Historico
+from animal import Animal, Historico, Registro
 import sys
+import json
 
-def consultar_registro(arvore, chave):
+def consultar_animal(arvore, chave):
     node = arvore.consultar(chave)
     if node:
+        print("")
         print("Animal encontrado:")
         node.animal.print_info()
     input("Pressione Enter para continuar...")  
 
-def adicionar_registro(arvore):
-    id = input("Digite o ID do animal: ")
-    while arvore.busca(id):
+def adicionar_animal(arvore):
+    id = int(input("Digite o ID do animal: "))
+    while arvore.consultar(id):
+        print("")
         print("Animal com ID já existe. Por favor, escolha outro ID.")
         id = input("Digite o ID do animal: ")
 
@@ -21,7 +24,8 @@ def adicionar_registro(arvore):
     sexo = input("Digite o sexo do animal: ")
     data_nascimento = input("Digite a data de nascimento do animal: ")
 
-    add_history = input("Deseja adicionar o histórico? (S/N): ")
+    print("")
+    add_history = input("Deseja adicionar um registro no histórico? (S/N): ")
     if add_history.lower() == "s":
         data_avaliacao = input("Digite a data da avaliação: ")
         temperatura = input("Digite a temperatura: ")
@@ -30,23 +34,26 @@ def adicionar_registro(arvore):
         amostra = input("Digite a amostra: ")
         exame = input("Digite o exame: ")
         problema = input("Digite o problema: ")
-        historico = Historico(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+        registro = Registro(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+        historico = Historico([registro])
     else:
-        historico = None
+        historico = Historico([])
 
     animal = Animal(id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico)
 
     arvore.inserir(animal)
 
-def remover_registro(arvore, chave):
+def remover_animal(arvore, chave):
     arvore.remover(chave)
 
-def atualizar_registro(arvore, chave):
+def adicionar_registro(arvore, chave):
     node = arvore.consultar(chave)
     if node:
+        print("")
         print("Animal encontrado. Informações atuais:")
         node.animal.print_info()
 
+        print("")
         historico = input("Deseja atualizar o histórico? (S/N): ")
         if historico.lower() == "s":
             data_avaliacao = input("Digite a data da avaliação: ")
@@ -56,16 +63,18 @@ def atualizar_registro(arvore, chave):
             amostra = input("Digite a amostra: ")
             exame = input("Digite o exame: ")
             problema = input("Digite o problema: ")
-            node.animal.historico = Historico(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+
+            registro = Registro(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+            node.animal.addLog(registro)
 
 def salvar_alteracoes(arvore, file_path):
-    with open(file_path, 'w') as file:
+    with open("./fauna2.json", 'w') as file:
+        animals = []
+
         for node in arvore:
-            animal = node.animal
-            line = f"{animal.id},{animal.apelido},{animal.inicio_monitoramento},{animal.especie},{animal.sexo},{animal.data_nascimento}"
-            historico_info = [str(h) for h in animal.historico.get_info()]
-            line += "," + ",".join(historico_info)
-            file.write(line + "\n")
+            animals.append(node.animal)
+
+        json.dump({"animals": [a.to_dict() for a in animals]}, file, indent=4)
 
 def sair():
     print("Saindo...")
@@ -75,53 +84,60 @@ def menu(file_path):
     arvore = ArvoreAVL()
 
     with open(file_path, 'r') as file:
-        for line in file:
-            animal_info = line.strip().split(',')
-            id = animal_info[0]
-            apelido = animal_info[1]
-            inicio_monitoramento = animal_info[2]
-            especie = animal_info[3]
-            sexo = animal_info[4]
-            data_nascimento = animal_info[5]
-            historico_info = animal_info[6:]
+        data = json.load(file)
+        for animal in data['animals']:
+            id = animal['id']
+            apelido = animal['apelido']
+            inicio_monitoramento = animal['inicio_monitoramento']
+            especie = animal['especie']
+            sexo = animal['sexo']
+            data_nascimento = animal['data_nascimento']
+
+            historico = Historico([])
 
             # Cria um objeto Historico com as informações
-            data_avaliacao = historico_info[0]
-            temperatura = historico_info[1]
-            peso = historico_info[2]
-            altura = historico_info[3]
-            amostra = historico_info[4]
-            exame = historico_info[5]
-            problema = historico_info[6]
-            historico = Historico(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+            historico_info = animal['historico']
+            for log in historico_info:
+                data_avaliacao = log['data_avaliacao']
+                temperatura = log['temperatura']
+                peso = log['peso']
+                altura = log['altura']
+                amostra = log['amostra']
+                exame = log['exame']
+                problema = log['problema_saude']
+
+                log = Registro(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+                historico.addLog(log)
 
             # Cria um objeto Animal com as informações
             animal = Animal(id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico)
+            animal.print_info()
 
-            # Insere o objeto Animal na árvore AVL
+            # # Insere o objeto Animal na árvore AVL
             arvore.inserir(animal)
 
     while True:
+        print("")
         arvore.inorder_traversal(arvore.raiz)
-        print()
+        print("")
         print("Menu:")
-        print("1. Consultar registro")
-        print("2. Adicionar registro")
-        print("3. Remover registro")
-        print("4. Atualizar registro")
+        print("1. Consultar animal")
+        print("2. Adicionar animal")
+        print("3. Remover animal")
+        print("4. Adicionar registro")
         print("5. Salvar alterações")
         print("6. Sair")
 
         choice = input("Digite sua escolha: ")
 
         if choice == "1":
-            consultar_registro(arvore, input("Digite o ID do animal: "))
+            consultar_animal(arvore, int(input("Digite o ID do animal: "))) # OK
         elif choice == "2":
-            adicionar_registro(arvore)
+            adicionar_animal(arvore) # OK?
         elif choice == "3":
-            remover_registro(arvore, input("Digite o ID do animal: "))
+            remover_animal(arvore, int(input("Digite o ID do animal: "))) # OK
         elif choice == "4":
-            atualizar_registro(arvore, input("Digite o ID do animal: "))
+            adicionar_registro(arvore, int(input("Digite o ID do animal: "))) # OK?
         elif choice == "5":
             salvar_alteracoes(arvore, file_path)
         elif choice == "6":
