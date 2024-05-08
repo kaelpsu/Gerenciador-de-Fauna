@@ -3,56 +3,56 @@
         {
             "id": 1,
             "apelido": "Leo",
-            "inicio_monitoramento": "2022-01-01",
+            "inicio_monitoramento": "01/01/2022",
             "especie": "Lion",
-            "sexo": "Male",
-            "data_nascimento": "2019-05-15",
+            "sexo": "M",
+            "data_nascimento": "15/05/2019",
             "historico": [
                 {
-                    "data_avaliacao": "2022-02-15",
+                    "data_avaliacao": "15/02/2022",
                     "temperatura": 37.5,
                     "peso": 150,
                     "altura": 180,
-                    "amostra": "Blood",
-                    "exame": "Blood test",
-                    "problema_saude": "None"
+                    "amostra": true,
+                    "exame": true,
+                    "problema_saude": null
                 },
                 {
-                    "data_avaliacao": "2022-03-20",
+                    "data_avaliacao": "20/03/2022",
                     "temperatura": 38.2,
                     "peso": 148,
                     "altura": 175,
-                    "amostra": "Urine",
-                    "exame": "Urinalysis",
-                    "problema_saude": "None"
+                    "amostra": false,
+                    "exame": false,
+                    "problema_saude": null
                 }
             ]
         },
         {
             "id": 2,
             "apelido": "Molly",
-            "inicio_monitoramento": "2022-01-01",
+            "inicio_monitoramento": "01/01/2022",
             "especie": "Elephant",
-            "sexo": "Female",
-            "data_nascimento": "2015-10-10",
+            "sexo": "F",
+            "data_nascimento": "10/10/2015",
             "historico": [
                 {
-                    "data_avaliacao": "2022-02-15",
+                    "data_avaliacao": "15/02/2022",
                     "temperatura": 36.8,
                     "peso": 5000,
                     "altura": 300,
-                    "amostra": "Blood",
-                    "exame": "Blood test",
-                    "problema_saude": "None"
+                    "amostra": true,
+                    "exame": true,
+                    "problema_saude": null
                 },
                 {
-                    "data_avaliacao": "2022-03-20",
+                    "data_avaliacao": "20/03/2022",
                     "temperatura": 37.2,
                     "peso": 4800,
                     "altura": 290,
-                    "amostra": "Urine",
-                    "exame": "Urinalysis",
-                    "problema_saude": "None"
+                    "amostra": true,
+                    "exame": false,
+                    "problema_saude": "Infecção urinária"
                 }
             ]
         }
