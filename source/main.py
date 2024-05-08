@@ -197,38 +197,42 @@ def sair():
 def menu(file_path):
     arvore = ArvoreAVL()
 
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-        for animal in data['animals']:
-            id = animal['id']
-            apelido = animal['apelido']
-            inicio_monitoramento = animal['inicio_monitoramento']
-            especie = animal['especie']
-            sexo = animal['sexo']
-            data_nascimento = animal['data_nascimento']
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+            for animal in data['animals']:
+                id = animal['id']
+                apelido = animal['apelido']
+                inicio_monitoramento = animal['inicio_monitoramento']
+                especie = animal['especie']
+                sexo = animal['sexo']
+                data_nascimento = animal['data_nascimento']
 
-            historico = Historico([])
+                historico = Historico([])
 
-            # Cria um objeto Historico com as informações
-            historico_info = animal['historico']
-            for log in historico_info:
-                data_avaliacao = log['data_avaliacao']
-                temperatura = log['temperatura']
-                peso = log['peso']
-                altura = log['altura']
-                amostra = log['amostra']
-                exame = log['exame']
-                problema = log['problema_saude']
+                # Cria um objeto Historico com as informações
+                historico_info = animal['historico']
+                for log in historico_info:
+                    data_avaliacao = log['data_avaliacao']
+                    temperatura = log['temperatura']
+                    peso = log['peso']
+                    altura = log['altura']
+                    amostra = log['amostra']
+                    exame = log['exame']
+                    problema = log['problema_saude']
 
-                log = Registro(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
-                historico.addLog(log)
+                    log = Registro(data_avaliacao, temperatura, peso, altura, amostra, exame, problema)
+                    historico.addLog(log)
 
-            # Cria um objeto Animal com as informações
-            animal = Animal(id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico)
-            # animal.print_info()
+                # Cria um objeto Animal com as informações
+                animal = Animal(id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico)
+                # animal.print_info()
 
-            # # Insere o objeto Animal na árvore AVL
-            arvore.inserir(animal)
+                # # Insere o objeto Animal na árvore AVL
+                arvore.inserir(animal)
+    except FileNotFoundError:
+        print("Arquivo não encontrado.")
+        exit()
 
     while True:
         print("")
