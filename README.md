@@ -9,19 +9,19 @@ Para executar o programa, você pode fornecer o caminho do arquivo como um argum
 ### Comando de linha
 
 ```bash
-python3 main.py /caminho/do/arquivo
+python3 /source/main.py /caminho/do/arquivo
 ```
 
 Para usar o arquivo de teste providenciado, utilize:
 
 ```bash
-python3 main.py ../data/fauna.json
+python3 /source/main.py /data/fauna.json
 ```
 
 ### Solicitação interativa
 
 ```
-python3 main.py
+python3 /source/main.py
 Digite o caminho do arquivo: /caminho/do/arquivo
 ```
 
