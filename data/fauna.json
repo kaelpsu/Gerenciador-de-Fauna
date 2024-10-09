@@ -15,7 +15,7 @@
                     "altura": 180,
                     "amostra": true,
                     "exame": true,
-                    "problema_saude": null
+                    "problema_de_saude": null
                 },
                 {
                     "data_avaliacao": "20/03/2022",
@@ -24,7 +24,7 @@
                     "altura": 175,
                     "amostra": false,
                     "exame": false,
-                    "problema_saude": null
+                    "problema_de_saude": null
                 }
             ]
         },
@@ -43,7 +43,7 @@
                     "altura": 300,
                     "amostra": true,
                     "exame": true,
-                    "problema_saude": null
+                    "problema_de_saude": null
                 },
                 {
                     "data_avaliacao": "20/03/2022",
@@ -52,7 +52,7 @@
                     "altura": 290,
                     "amostra": true,
                     "exame": false,
-                    "problema_saude": "Infecção urinária"
+                    "problema_de_saude": "Infecção urinária"
                 }
             ]
         }
