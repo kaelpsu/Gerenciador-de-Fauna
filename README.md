@@ -53,7 +53,7 @@ O arquivo JSON segue a seguinte estrutura:
     - **altura**: Um número que representa a altura do animal na avaliação médica.
     - **amostra**: Um booleano que indica se uma amostra foi coletada durante a avaliação médica.
     - **exame**: Um booleano que indica se o exame físico está ok.
-    - **problema_saude**: Uma string que descreve qualquer problema de saúde detectado durante a avaliação médica, ou `null` se nenhum problema foi detectado.
+    - **problema_de_saude**: Uma string que descreve qualquer problema de saúde detectado durante a avaliação médica, ou `null` se nenhum problema foi detectado.
 
 A leitura e salvamento dos arquivos seguem esse mesmo formato.
 
@@ -77,7 +77,7 @@ A leitura e salvamento dos arquivos seguem esse mesmo formato.
                     "altura": 180,
                     "amostra": true,
                     "exame": true,
-                    "problema_saude": null
+                    "problema_de_saude": null
                 },
                 {
                     "data_avaliacao": "20/03/2022",
@@ -86,7 +86,7 @@ A leitura e salvamento dos arquivos seguem esse mesmo formato.
                     "altura": 175,
                     "amostra": false,
                     "exame": false,
-                    "problema_saude": null
+                    "problema_de_saude": null
                 }
             ]
         },
@@ -105,7 +105,7 @@ A leitura e salvamento dos arquivos seguem esse mesmo formato.
                     "altura": 300,
                     "amostra": true,
                     "exame": true,
-                    "problema_saude": null
+                    "problema_de_saude": null
                 },
                 {
                     "data_avaliacao": "20/03/2022",
@@ -114,7 +114,7 @@ A leitura e salvamento dos arquivos seguem esse mesmo formato.
                     "altura": 290,
                     "amostra": true,
                     "exame": false,
-                    "problema_saude": "Infecção urinária"
+                    "problema_de_saude": "Infecção urinária"
                 }
             ]
         }
