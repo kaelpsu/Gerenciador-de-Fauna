@@ -1,25 +1,25 @@
-from animal import Animal, Historico
+# Estrutura de dados utilizada para armazenar os registros da aplicação
 
 class Node:
     def __init__(self, animal):
-        self.chave = animal.id  # Chave do nó é o ID do animal
-        self.animal = animal  # Referência para o objeto Animal
-        self.esquerda = None  # Referência para o nó filho esquerdo
-        self.direita = None  # Referência para o nó filho direito
-        self.altura = 1  # Altura do nó na árvore
+        self.chave = animal.id
+        self.animal = animal
+        self.filho_esquerdo = None
+        self.filho_direito = None
+        self.altura = 1
 
 class ArvoreAVL:
     def __init__(self):
-        self.raiz = None  # Referência para o nó raiz da árvore
+        self.raiz = None
 
     def __iter__(self):
         return self._inorder_iterator(self.raiz)
 
     def _inorder_iterator(self, raiz):
         if raiz:
-            yield from self._inorder_iterator(raiz.esquerda)  # Percorre a subárvore esquerda
+            yield from self._inorder_iterator(raiz.filho_esquerdo)  # Percorre a subárvore esquerda
             yield raiz  # Retorna o nó atual
-            yield from self._inorder_iterator(raiz.direita)  # Percorre a subárvore direita
+            yield from self._inorder_iterator(raiz.filho_direito)  # Percorre a subárvore direita
 
     def inserir(self, animal):
         self.raiz = self._inserir(self.raiz, animal)
@@ -27,27 +27,27 @@ class ArvoreAVL:
     def _inserir(self, raiz, animal):
         chave = animal.id
         if not raiz:
-            return Node(animal)  # Cria um novo nó se a raiz for nula
+            return Node(animal)
         elif chave < raiz.chave:
-            raiz.esquerda = self._inserir(raiz.esquerda, animal)  # Insere na subárvore esquerda
+            raiz.filho_esquerdo = self._inserir(raiz.filho_esquerdo, animal)  # Insere na subárvore esquerda
         else:
-            raiz.direita = self._inserir(raiz.direita, animal)  # Insere na subárvore direita
+            raiz.filho_direito = self._inserir(raiz.filho_direito, animal)  # Insere na subárvore direita
 
-        raiz.altura = 1 + max(self._obter_altura(raiz.esquerda), self._obter_altura(raiz.direita))  # Atualiza a altura do nó
-        fator_balanceamento = self._obter_fator_balanceamento(raiz)  # Calcula o fator de balanceamento do nó
+        self._atualizar_altura(raiz)
+        fator_balanceamento = self._obter_fator_balanceamento(raiz)
 
         if fator_balanceamento > 1:
-            if chave < raiz.esquerda.chave:
-                return self._rotacionar_direita(raiz)  # Rotação simples à direita
+            if chave < raiz.filho_esquerdo.chave:
+                return self._rotacionar_direita(raiz) 
             else:
-                raiz.esquerda = self._rotacionar_esquerda(raiz.esquerda)  # Rotação dupla à esquerda
-                return self._rotacionar_direita(raiz)  # Rotação simples à direita
+                raiz.filho_esquerdo = self._rotacionar_esquerda(raiz.filho_esquerdo)  # Rotação dupla à esquerda
+                return self._rotacionar_direita(raiz)
         elif fator_balanceamento < -1:
-            if chave > raiz.direita.chave:
-                return self._rotacionar_esquerda(raiz)  # Rotação simples à esquerda
+            if chave > raiz.filho_direito.chave:
+                return self._rotacionar_esquerda(raiz)
             else:
-                raiz.direita = self._rotacionar_direita(raiz.direita)  # Rotação dupla à direita
-                return self._rotacionar_esquerda(raiz)  # Rotação simples à esquerda
+                raiz.filho_direito = self._rotacionar_direita(raiz.filho_direito)  # Rotação dupla à direita
+                return self._rotacionar_esquerda(raiz)
 
         return raiz
 
@@ -58,95 +58,100 @@ class ArvoreAVL:
         if not raiz:
             return raiz
         elif chave < raiz.chave:
-            raiz.esquerda = self._remover(raiz.esquerda, chave)  # Remove da subárvore esquerda
+            raiz.filho_esquerdo = self._remover(raiz.filho_esquerdo, chave)  # Remove da subárvore esquerda
         elif chave > raiz.chave:
-            raiz.direita = self._remover(raiz.direita, chave)  # Remove da subárvore direita
+            raiz.filho_direito = self._remover(raiz.filho_direito, chave)  # Remove da subárvore direita
         else:
-            if not raiz.esquerda:
-                return raiz.direita  # Substitui o nó pelo filho direito
-            elif not raiz.direita:
-                return raiz.esquerda  # Substitui o nó pelo filho esquerdo
+            if not raiz.filho_esquerdo:
+                return raiz.filho_direito  # Substitui o nó pelo filho direito
+            elif not raiz.filho_direito:
+                return raiz.filho_esquerdo  # Substitui o nó pelo filho esquerdo
             else:
-                minimo = self._obter_minimo(raiz.direita)  # Encontra o nó mínimo na subárvore direita
-                raiz.chave = minimo.chave  # Substitui a chave do nó pelo mínimo encontrado
-                raiz.animal = minimo.animal  # Substitui o objeto Animal do nó pelo mínimo encontrado
-                raiz.direita = self._remover(raiz.direita, minimo.chave)  # Remove o mínimo encontrado da subárvore direita
+                minimo = self._obter_nó_minimo(raiz.filho_direito)
+                raiz.chave = minimo.chave
+                raiz.animal = minimo.animal
+                raiz.filho_direito = self._remover(raiz.filho_direito, minimo.chave)
 
-        raiz.altura = 1 + max(self._obter_altura(raiz.esquerda), self._obter_altura(raiz.direita))  # Atualiza a altura do nó
-        fator_balanceamento = self._obter_fator_balanceamento(raiz)  # Calcula o fator de balanceamento do nó
+        self._atualizar_altura(raiz)
+        fator_balanceamento = self._obter_fator_balanceamento(raiz)
 
         if fator_balanceamento > 1:
-            if self._obter_fator_balanceamento(raiz.esquerda) >= 0:
-                return self._rotacionar_direita(raiz)  # Rotação simples à direita
+            if self._obter_fator_balanceamento(raiz.filho_esquerdo) >= 0:
+                return self._rotacionar_direita(raiz)
             else:
-                raiz.esquerda = self._rotacionar_esquerda(raiz.esquerda)  # Rotação dupla à esquerda
-                return self._rotacionar_direita(raiz)  # Rotação simples à direita
+                raiz.filho_esquerdo = self._rotacionar_esquerda(raiz.filho_esquerdo)  # Rotação dupla à esquerda
+                return self._rotacionar_direita(raiz)
         elif fator_balanceamento < -1:
-            if self._obter_fator_balanceamento(raiz.direita) <= 0:
-                return self._rotacionar_esquerda(raiz)  # Rotação simples à esquerda
+            if self._obter_fator_balanceamento(raiz.filho_direito) <= 0:
+                return self._rotacionar_esquerda(raiz)
             else:
-                raiz.direita = self._rotacionar_direita(raiz.direita)  # Rotação dupla à direita
-                return self._rotacionar_esquerda(raiz)  # Rotação simples à esquerda
+                raiz.filho_direito = self._rotacionar_direita(raiz.filho_direito)  # Rotação dupla à direita
+                return self._rotacionar_esquerda(raiz)
 
         return raiz
 
     def atualizar(self, chave_antiga, animal_atualizado):
-        self.remover(chave_antiga)  # Remove o nó com a chave antiga
-        self.inserir(animal_atualizado)  # Insere o nó atualizado
+        self.remover(chave_antiga)
+        self.inserir(animal_atualizado)
 
     def consultar(self, chave):
         return self._consultar(self.raiz, chave)
 
     def _consultar(self, raiz, chave):
         if not raiz or raiz.chave == chave:
-            return raiz  # Retorna o nó se a chave for encontrada ou se a raiz for nula
+            return raiz
         elif chave < raiz.chave:
-            return self._consultar(raiz.esquerda, chave)  # Procura na subárvore esquerda
+            return self._consultar(raiz.filho_esquerdo, chave)  # Procura na subárvore esquerda
         else:
-            return self._consultar(raiz.direita, chave)  # Procura na subárvore direita
+            return self._consultar(raiz.filho_direito, chave)  # Procura na subárvore direita
 
     def _obter_altura(self, node):
         if not node:
             return 0
-        return node.altura  # Retorna a altura do nó
+        return node.altura
+    
+    def _atualizar_altura(self, node):
+        if not node:
+            return 0
+        node.altura = 1 + max(self._obter_altura(node.filho_esquerdo), self._obter_altura(node.filho_direito))
 
     def _obter_fator_balanceamento(self, node):
         if not node:
             return 0
-        return self._obter_altura(node.esquerda) - self._obter_altura(node.direita)  # Calcula o fator de balanceamento do nó
+        return self._obter_altura(node.filho_esquerdo) - self._obter_altura(node.filho_direito)  # Calcula o fator de balanceamento do nó
 
-    def _rotacionar_esquerda(self, z):
-        y = z.direita
-        T2 = y.esquerda
+    def _rotacionar_esquerda(self, node):
+        filho_direito = node.filho_direito
+        neto = filho_direito.filho_esquerdo
 
-        y.esquerda = z
-        z.direita = T2
+        filho_direito.filho_esquerdo = node
+        node.filho_direito = neto
 
-        z.altura = 1 + max(self._obter_altura(z.esquerda), self._obter_altura(z.direita))  # Atualiza a altura do nó z
-        y.altura = 1 + max(self._obter_altura(y.esquerda), self._obter_altura(y.direita))  # Atualiza a altura do nó y
+        self._atualizar_altura(node)
+        self._atualizar_altura(filho_direito)
 
-        return y
+        return filho_direito
 
-    def _rotacionar_direita(self, z):
-        y = z.esquerda
-        T3 = y.direita
+    def _rotacionar_direita(self, node):
+        filho_esquerdo = node.filho_esquerdo
+        neto = filho_esquerdo.filho_direito
 
-        y.direita = z
-        z.esquerda = T3
+        filho_esquerdo.filho_direito = node
+        node.filho_esquerdo = neto
 
-        z.altura = 1 + max(self._obter_altura(z.esquerda), self._obter_altura(z.direita))  # Atualiza a altura do nó z
-        y.altura = 1 + max(self._obter_altura(y.esquerda), self._obter_altura(y.direita))  # Atualiza a altura do nó y
+        self._atualizar_altura(node)
+        self._atualizar_altura(filho_esquerdo)
 
-        return y
+        return filho_esquerdo
 
-    def _obter_minimo(self, raiz):
-        atual = raiz
-        while atual.esquerda:
-            atual = atual.esquerda
-        return atual  # Retorna o nó mínimo encontrado
+    def _obter_nó_minimo(self, raiz):
+        minimo = raiz
+        while minimo.filho_esquerdo:
+            minimo = minimo.filho_esquerdo
+        return minimo
 
     def inorder_traversal(self, raiz):
         if raiz:
-            self.inorder_traversal(raiz.esquerda)  # Percorre a subárvore esquerda
+            self.inorder_traversal(raiz.filho_esquerdo)  # Percorre a subárvore esquerda
             print(f"ID: {raiz.animal.id} | APELIDO: {raiz.animal.apelido}")  # Imprime as informações do nó
-            self.inorder_traversal(raiz.direita)  # Percorre a subárvore direita
+            self.inorder_traversal(raiz.filho_direito)  # Percorre a subárvore direita
