@@ -1,6 +1,13 @@
 # Estrutura de dados utilizada para armazenar os registros da aplicação
 
 class Node:
+    """
+    Representa um nó de uma árvore AVL.
+
+    :param animal: Objeto da classe `Animal` que será armazenado no nó.
+    :type animal: Animal
+    """
+    
     def __init__(self, animal):
         self.chave = animal.id
         self.animal = animal
@@ -9,22 +16,67 @@ class Node:
         self.altura = 1
 
 class ArvoreAVL:
+    """
+    Implementa uma árvore AVL para armazenar e gerenciar objetos `Animal`.
+
+    A árvore AVL é uma árvore de busca binária balanceada, que garante que as operações de inserção,
+    remoção e consulta sejam feitas em tempo O(log n).
+    """
+    
     def __init__(self):
+        """
+        Inicializa a árvore AVL vazia.
+        """
+        
         self.raiz = None
 
     def __iter__(self):
+        """
+        Retorna um iterador que percorre a árvore em ordem.
+
+        :return: Iterador que percorre a árvore.
+        :rtype: iter
+        """
+        
         return self._inorder_iterator(self.raiz)
 
     def _inorder_iterator(self, raiz):
+        """
+        Iterador interno para percorrer a árvore em ordem.
+
+        :param raiz: Raiz da subárvore a ser percorrida.
+        :type raiz: Node
+        :return: Um gerador para os nós da árvore em ordem.
+        :rtype: generator
+        """
+        
         if raiz:
             yield from self._inorder_iterator(raiz.filho_esquerdo)  # Percorre a subárvore esquerda
             yield raiz  # Retorna o nó atual
             yield from self._inorder_iterator(raiz.filho_direito)  # Percorre a subárvore direita
 
     def inserir(self, animal):
+        """
+        Insere um novo animal na árvore AVL.
+
+        :param animal: O animal a ser inserido.
+        :type animal: Animal
+        """
+        
         self.raiz = self._inserir(self.raiz, animal)
 
     def _inserir(self, raiz, animal):
+        """
+        Função recursiva para inserir um novo nó na árvore AVL.
+
+        :param raiz: Raiz da subárvore onde o novo nó será inserido.
+        :type raiz: Node
+        :param animal: O animal a ser inserido.
+        :type animal: Animal
+        :return: O nó raiz atualizado após a inserção e balanceamento.
+        :rtype: Node
+        """
+        
         chave = animal.id
         if not raiz:
             return Node(animal)
@@ -52,9 +104,27 @@ class ArvoreAVL:
         return raiz
 
     def remover(self, chave):
+        """
+        Remove um nó da árvore AVL com base na chave do animal.
+
+        :param chave: A chave (ID do animal) a ser removida.
+        :type chave: int
+        """
+        
         self.raiz = self._remover(self.raiz, chave)
 
     def _remover(self, raiz, chave):
+        """
+        Função recursiva para remover um nó da árvore AVL.
+
+        :param raiz: Raiz da subárvore onde o nó será removido.
+        :type raiz: Node
+        :param chave: A chave do animal a ser removido.
+        :type chave: int
+        :return: O nó raiz atualizado após a remoção e balanceamento.
+        :rtype: Node
+        """
+        
         if not raiz:
             return raiz
         elif chave < raiz.chave:
@@ -91,13 +161,44 @@ class ArvoreAVL:
         return raiz
 
     def atualizar(self, chave_antiga, animal_atualizado):
+        """
+        Atualiza um nó na árvore AVL substituindo o nó com a chave antiga por um nó com o novo animal.
+
+        Essa função primeiro remove o nó com a chave antiga e depois insere o nó atualizado.
+
+        :param chave_antiga: A chave (ID do animal) que deve ser substituída.
+        :type chave_antiga: int
+        :param animal_atualizado: O novo animal que será inserido no lugar do antigo.
+        :type animal_atualizado: Animal
+        """
+    
         self.remover(chave_antiga)
         self.inserir(animal_atualizado)
 
     def consultar(self, chave):
+        """
+        Consulta um nó na árvore AVL com base na chave.
+
+        :param chave: A chave (ID do animal) a ser consultada.
+        :type chave: int
+        :return: O nó correspondente ao animal ou None se não encontrado.
+        :rtype: Node or None
+        """
+        
         return self._consultar(self.raiz, chave)
 
     def _consultar(self, raiz, chave):
+        """
+        Função recursiva para consultar um nó na árvore AVL.
+
+        :param raiz: Raiz da subárvore onde o nó será consultado.
+        :type raiz: Node
+        :param chave: A chave (ID do animal) a ser consultada.
+        :type chave: int
+        :return: O nó correspondente ao animal ou None se não encontrado.
+        :rtype: Node or None
+        """
+        
         if not raiz or raiz.chave == chave:
             return raiz
         elif chave < raiz.chave:
@@ -106,21 +207,55 @@ class ArvoreAVL:
             return self._consultar(raiz.filho_direito, chave)  # Procura na subárvore direita
 
     def _obter_altura(self, node):
+        """
+        Retorna a altura de um nó.
+
+        :param node: O nó cuja altura será retornada.
+        :type node: Node
+        :return: A altura do nó.
+        :rtype: int
+        """
+        
         if not node:
             return 0
         return node.altura
     
     def _atualizar_altura(self, node):
+        """
+        Atualiza a altura de um nó com base na altura dos seus filhos.
+
+        :param node: O nó cuja altura será atualizada.
+        :type node: Node
+        """
+        
         if not node:
             return 0
         node.altura = 1 + max(self._obter_altura(node.filho_esquerdo), self._obter_altura(node.filho_direito))
 
     def _obter_fator_balanceamento(self, node):
+        """
+        Calcula o fator de balanceamento de um nó.
+
+        :param node: O nó cujo fator de balanceamento será calculado.
+        :type node: Node
+        :return: O fator de balanceamento do nó.
+        :rtype: int
+        """
+        
         if not node:
             return 0
         return self._obter_altura(node.filho_esquerdo) - self._obter_altura(node.filho_direito)  # Calcula o fator de balanceamento do nó
 
     def _rotacionar_esquerda(self, node):
+        """
+        Realiza a rotação à esquerda em um nó.
+
+        :param node: O nó sobre o qual será realizada a rotação.
+        :type node: Node
+        :return: O nó atualizado após a rotação.
+        :rtype: Node
+        """
+        
         filho_direito = node.filho_direito
         neto = filho_direito.filho_esquerdo
 
@@ -133,6 +268,18 @@ class ArvoreAVL:
         return filho_direito
 
     def _rotacionar_direita(self, node):
+        """
+        Realiza a rotação à direita em um nó da árvore AVL.
+
+        Esta rotação é usada para balancear a árvore AVL quando o fator de balanceamento
+        do nó é maior que 1 e o fator de balanceamento do filho esquerdo é maior ou igual a 0.
+
+        :param node: O nó que será rotacionado à direita.
+        :type node: Node
+        :return: O novo nó raiz após a rotação à direita.
+        :rtype: Node
+        """
+    
         filho_esquerdo = node.filho_esquerdo
         neto = filho_esquerdo.filho_direito
 
@@ -145,12 +292,28 @@ class ArvoreAVL:
         return filho_esquerdo
 
     def _obter_nó_minimo(self, raiz):
+        """
+        Encontra o nó com o menor valor (a menor chave) em uma subárvore.
+
+        :param raiz: O nó raiz da subárvore onde o nó mínimo será encontrado.
+        :type raiz: Node
+        :return: O nó com a menor chave na subárvore.
+        :rtype: Node
+        """
+    
         minimo = raiz
         while minimo.filho_esquerdo:
             minimo = minimo.filho_esquerdo
         return minimo
 
     def inorder_traversal(self, raiz):
+        """
+        Percorre a árvore AVL em ordem (in-order) e imprime as informações dos nós.
+
+        :param raiz: O nó raiz da subárvore a ser percorrida.
+        :type raiz: Node
+        """
+        
         if raiz:
             self.inorder_traversal(raiz.filho_esquerdo)  # Percorre a subárvore esquerda
             print(f"ID: {raiz.animal.id} | APELIDO: {raiz.animal.apelido}")  # Imprime as informações do nó
