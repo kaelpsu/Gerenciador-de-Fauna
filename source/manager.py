@@ -4,6 +4,15 @@ from ui import *
 import json
 
 def consultar_animal(arvore, chave):
+    """
+    Consulta um animal na árvore AVL pelo ID e exibe suas informações.
+
+    :param arvore: A árvore AVL onde o animal está armazenado.
+    :type arvore: ArvoreAVL
+    :param chave: O ID do animal a ser consultado.
+    :type chave: int
+    """
+    
     node = arvore.consultar(chave)
     if node:
         print("")
@@ -13,6 +22,14 @@ def consultar_animal(arvore, chave):
     
 
 def adicionar_animal(arvore):
+    """
+    Adiciona um novo animal à árvore AVL, solicitando as informações ao usuário.
+
+    Se o ID fornecido já existir, o usuário será solicitado a escolher outro ID.
+
+    :param arvore: A árvore AVL onde o animal será adicionado.
+    :type arvore: ArvoreAVL
+    """
     
     while True:
         id = solicita_id()
@@ -52,9 +69,27 @@ def adicionar_animal(arvore):
     arvore.inserir(animal)
 
 def remover_animal(arvore, chave):
+    """
+    Remove um animal da árvore AVL pelo seu ID.
+
+    :param arvore: A árvore AVL onde o animal está armazenado.
+    :type arvore: ArvoreAVL
+    :param chave: O ID do animal a ser removido.
+    :type chave: int
+    """
+    
     arvore.remover(chave)
 
 def adicionar_registro(arvore, chave):
+    """
+    Adiciona um novo registro ao histórico de um animal na árvore AVL.
+
+    :param arvore: A árvore AVL onde o animal está armazenado.
+    :type arvore: ArvoreAVL
+    :param chave: O ID do animal ao qual o registro será adicionado.
+    :type chave: int
+    """
+    
     node = arvore.consultar(chave)
     
     if node:
@@ -71,6 +106,15 @@ def adicionar_registro(arvore, chave):
 
 
 def salvar_alteracoes(arvore, save_path):
+    """
+    Salva as alterações da árvore AVL em um arquivo JSON.
+
+    :param arvore: A árvore AVL cujos dados serão salvos.
+    :type arvore: ArvoreAVL
+    :param save_path: O caminho do arquivo onde os dados serão salvos.
+    :type save_path: str
+    """
+    
     with open(save_path, 'w') as file:
         animals = []
 
@@ -82,10 +126,21 @@ def salvar_alteracoes(arvore, save_path):
         json.dump({"animals": [a.convert_to_dictionary() for a in animals]}, file, indent=4)
 
 def sair():
+    """
+    Encerra a aplicação.
+    """
+    
     print("Saindo...")
     exit()
     
 def display_menu(arvore):
+    """
+    Exibe o menu de opções para o usuário e executa a ação correspondente.
+
+    :param arvore: A árvore AVL onde os animais estão armazenados.
+    :type arvore: ArvoreAVL
+    """
+    
     print("")
     arvore.inorder_traversal(arvore.raiz)
     print("")
@@ -116,6 +171,13 @@ def display_menu(arvore):
         print("Escolha inválida. Por favor, tente novamente.")
 
 def initialize(file_path):
+    """
+    Inicializa a aplicação carregando os dados de um arquivo JSON e exibindo o menu.
+
+    :param file_path: O caminho do arquivo JSON contendo os dados dos animais.
+    :type file_path: str
+    """
+    
     arvore = ArvoreAVL()
 
     try:
