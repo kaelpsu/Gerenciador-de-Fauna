@@ -17,7 +17,7 @@ class Registro:
     :param problema_de_saude: Descrição do problema de saúde (se houver).
     :type problema_de_saude: str
     """
-    
+
     def __init__(self, data_avaliacao, temperatura, peso, altura, amostra, exame, problema_de_saude):
         self.data_avaliacao = data_avaliacao
         self.temperatura = temperatura
@@ -34,7 +34,7 @@ class Registro:
         :return: Dicionário com os dados do registro.
         :rtype: dict
         """
-        
+
         return {
             "data_avaliacao": self.data_avaliacao,
             "temperatura": self.temperatura,
@@ -44,6 +44,9 @@ class Registro:
             "exame": self.exame,
             "problema_de_saude": self.problema_de_saude
         }
+    def __eq__(self, other) -> bool:
+        # "==" aplicado supre as necessidades da checagem. Reduz bloating do código
+        return self.convert_to_dictionary() == other.convert_to_dictionary
 
 
 class Historico:
@@ -53,7 +56,7 @@ class Historico:
     :param logs: Lista de registros de avaliação. Por padrão, inicia como uma lista vazia.
     :type logs: list
     """
-    
+
     def __init__(self, logs=None):
         if logs is None:
             logs = []
@@ -66,7 +69,7 @@ class Historico:
         :param log: Registro a ser adicionado.
         :type log: Registro
         """
-        
+
         self.logs.append(log)
 
     def get_info(self):
@@ -76,7 +79,7 @@ class Historico:
         :return: Lista de registros.
         :rtype: list
         """
-        
+
         return self.logs
 
     def convert_to_dictionary(self):
@@ -86,8 +89,12 @@ class Historico:
         :return: Lista de dicionários com os dados dos registros.
         :rtype: list
         """
-        
+
         return [log.convert_to_dictionary() for log in self.logs]
+    def __eq__(self, other ) -> bool:
+        return (
+            self.logs == other.logs ## Pode dar problema dependendo da ordenação dos logs
+        )
 
 
 class Animal:
@@ -109,7 +116,7 @@ class Animal:
     :param historico: Histórico de avaliações do animal.
     :type historico: Historico
     """
-    
+
     def __init__(self, id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico=Historico([])):
         self.id = id
         self.apelido = apelido
@@ -126,14 +133,14 @@ class Animal:
         :param log: Registro a ser adicionado.
         :type log: Registro
         """
-        
+
         self.historico.add_log(log)
-        
+
     def print_historico(self):
         """
         Exibe o histórico de avaliações do animal em formato de tabela.
         """
-        
+
         print("Histórico de Registros:")
         print("Data\t\tTemperatura\t\tPeso\t\tAltura\t\tAmostra?\t\tExame OK?\t\tProblema de Saúde")
 
@@ -144,7 +151,7 @@ class Animal:
         """
         Exibe as informações do animal e seu histórico (se houver).
         """
-        
+
         print(f"ID: {self.id}")
         print(f"Apelido: {self.apelido}")
         print(f"Início do Monitoramento: {self.inicio_monitoramento}")
@@ -164,7 +171,7 @@ class Animal:
         :return: Dicionário com os dados do animal e seu histórico.
         :rtype: dict
         """
-        
+
         return {
             "id": self.id,
             "apelido": self.apelido,
@@ -174,3 +181,6 @@ class Animal:
             "data_nascimento": self.data_nascimento,
             "historico": self.historico.convert_to_dictionary(),
         }
+
+    def __eq__(self, other) -> bool:
+        return self.convert_to_dictionary() == other.convert_to_dictionary()
