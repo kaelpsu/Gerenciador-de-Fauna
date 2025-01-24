@@ -1,0 +1,116 @@
+{
+    "animals": [
+        {
+            "id": 5,
+            "apelido": "Max",
+            "inicio_monitoramento": "15/05/2023",
+            "especie": "Zebra",
+            "sexo": "M",
+            "data_nascimento": "02/03/2018",
+            "historico": [
+                {
+                    "data_avaliacao": "20/05/2023",
+                    "temperatura": 36.7,
+                    "peso": 400,
+                    "altura": 140,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": null
+                },
+                {
+                    "data_avaliacao": "30/06/2023",
+                    "temperatura": 37.1,
+                    "peso": 390,
+                    "altura": 138,
+                    "amostra": false,
+                    "exame": false,
+                    "problema_de_saude": "Ferida superficial no dorso"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "apelido": "Luna",
+            "inicio_monitoramento": "10/07/2023",
+            "especie": "Kangaroo",
+            "sexo": "F",
+            "data_nascimento": "25/12/2017",
+            "historico": [
+                {
+                    "data_avaliacao": "15/07/2023",
+                    "temperatura": 36.5,
+                    "peso": 85,
+                    "altura": 150,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": "Contusão na perna esquerda"
+                },
+                {
+                    "data_avaliacao": "20/08/2023",
+                    "temperatura": 36.8,
+                    "peso": 88,
+                    "altura": 152,
+                    "amostra": false,
+                    "exame": false,
+                    "problema_de_saude": null
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "apelido": "Oscar",
+            "inicio_monitoramento": "01/09/2023",
+            "especie": "Panda",
+            "sexo": "M",
+            "data_nascimento": "14/04/2016",
+            "historico": [
+                {
+                    "data_avaliacao": "10/09/2023",
+                    "temperatura": 36.9,
+                    "peso": 120,
+                    "altura": 120,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": null
+                },
+                {
+                    "data_avaliacao": "15/10/2023",
+                    "temperatura": 37.3,
+                    "peso": 125,
+                    "altura": 121,
+                    "amostra": false,
+                    "exame": true,
+                    "problema_de_saude": "Infecção ocular"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "apelido": "Daisy",
+            "inicio_monitoramento": "05/11/2023",
+            "especie": "Penguin",
+            "sexo": "F",
+            "data_nascimento": "18/01/2020",
+            "historico": [
+                {
+                    "data_avaliacao": "10/11/2023",
+                    "temperatura": 35.5,
+                    "peso": 12,
+                    "altura": 45,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": "Mudança anormal no padrão de penugem"
+                },
+                {
+                    "data_avaliacao": "20/12/2023",
+                    "temperatura": 35.7,
+                    "peso": 11.5,
+                    "altura": 44,
+                    "amostra": false,
+                    "exame": false,
+                    "problema_de_saude": null
+                }
+            ]
+        }
+    ]
+}

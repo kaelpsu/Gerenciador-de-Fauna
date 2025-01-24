@@ -1,0 +1,88 @@
+{
+    "animals": [
+        {
+            "id": 6,
+            "apelido": "Luna",
+            "inicio_monitoramento": "10/07/2023",
+            "especie": "Kangaroo",
+            "sexo": "F",
+            "data_nascimento": "25/12/2017",
+            "historico": [
+                {
+                    "data_avaliacao": "15/07/2023",
+                    "temperatura": 36.5,
+                    "peso": 85,
+                    "altura": 150,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": "Contus\u00e3o na perna esquerda"
+                },
+                {
+                    "data_avaliacao": "20/08/2023",
+                    "temperatura": 36.8,
+                    "peso": 88,
+                    "altura": 152,
+                    "amostra": false,
+                    "exame": false,
+                    "problema_de_saude": null
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "apelido": "Oscar",
+            "inicio_monitoramento": "01/09/2023",
+            "especie": "Panda",
+            "sexo": "M",
+            "data_nascimento": "14/04/2016",
+            "historico": [
+                {
+                    "data_avaliacao": "10/09/2023",
+                    "temperatura": 36.9,
+                    "peso": 120,
+                    "altura": 120,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": null
+                },
+                {
+                    "data_avaliacao": "15/10/2023",
+                    "temperatura": 37.3,
+                    "peso": 125,
+                    "altura": 121,
+                    "amostra": false,
+                    "exame": true,
+                    "problema_de_saude": "Infec\u00e7\u00e3o ocular"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "apelido": "Daisy",
+            "inicio_monitoramento": "05/11/2023",
+            "especie": "Penguin",
+            "sexo": "F",
+            "data_nascimento": "18/01/2020",
+            "historico": [
+                {
+                    "data_avaliacao": "10/11/2023",
+                    "temperatura": 35.5,
+                    "peso": 12,
+                    "altura": 45,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": "Mudan\u00e7a anormal no padr\u00e3o de penugem"
+                },
+                {
+                    "data_avaliacao": "20/12/2023",
+                    "temperatura": 35.7,
+                    "peso": 11.5,
+                    "altura": 44,
+                    "amostra": false,
+                    "exame": false,
+                    "problema_de_saude": null
+                }
+            ]
+        }
+    ]
+}
