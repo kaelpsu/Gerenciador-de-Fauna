@@ -1,3 +1,4 @@
+from io import StringIO
 # Estrutura de dados utilizada para armazenar os registros da aplicação
 
 class Node:
@@ -7,7 +8,7 @@ class Node:
     :param animal: Objeto da classe `Animal` que será armazenado no nó.
     :type animal: Animal
     """
-    
+
     def __init__(self, animal):
         self.chave = animal.id
         self.animal = animal
@@ -22,12 +23,12 @@ class ArvoreAVL:
     A árvore AVL é uma árvore de busca binária balanceada, que garante que as operações de inserção,
     remoção e consulta sejam feitas em tempo O(log n).
     """
-    
+
     def __init__(self):
         """
         Inicializa a árvore AVL vazia.
         """
-        
+
         self.raiz = None
 
     def __iter__(self):
@@ -37,7 +38,7 @@ class ArvoreAVL:
         :return: Iterador que percorre a árvore.
         :rtype: iter
         """
-        
+
         return self._inorder_iterator(self.raiz)
 
     def _inorder_iterator(self, raiz):
@@ -49,7 +50,7 @@ class ArvoreAVL:
         :return: Um gerador para os nós da árvore em ordem.
         :rtype: generator
         """
-        
+
         if raiz:
             yield from self._inorder_iterator(raiz.filho_esquerdo)  # Percorre a subárvore esquerda
             yield raiz  # Retorna o nó atual
@@ -62,7 +63,7 @@ class ArvoreAVL:
         :param animal: O animal a ser inserido.
         :type animal: Animal
         """
-        
+
         self.raiz = self._inserir(self.raiz, animal)
 
     def _inserir(self, raiz, animal):
@@ -76,7 +77,7 @@ class ArvoreAVL:
         :return: O nó raiz atualizado após a inserção e balanceamento.
         :rtype: Node
         """
-        
+
         chave = animal.id
         if not raiz:
             return Node(animal)
@@ -90,7 +91,7 @@ class ArvoreAVL:
 
         if fator_balanceamento > 1:
             if chave < raiz.filho_esquerdo.chave:
-                return self._rotacionar_direita(raiz) 
+                return self._rotacionar_direita(raiz)
             else:
                 raiz.filho_esquerdo = self._rotacionar_esquerda(raiz.filho_esquerdo)  # Rotação dupla à esquerda
                 return self._rotacionar_direita(raiz)
@@ -110,7 +111,7 @@ class ArvoreAVL:
         :param chave: A chave (ID do animal) a ser removida.
         :type chave: int
         """
-        
+
         self.raiz = self._remover(self.raiz, chave)
 
     def _remover(self, raiz, chave):
@@ -124,9 +125,9 @@ class ArvoreAVL:
         :return: O nó raiz atualizado após a remoção e balanceamento.
         :rtype: Node
         """
-        
+
         if not raiz:
-            return raiz
+            return None # Mudar dps
         elif chave < raiz.chave:
             raiz.filho_esquerdo = self._remover(raiz.filho_esquerdo, chave)  # Remove da subárvore esquerda
         elif chave > raiz.chave:
@@ -171,7 +172,7 @@ class ArvoreAVL:
         :param animal_atualizado: O novo animal que será inserido no lugar do antigo.
         :type animal_atualizado: Animal
         """
-    
+
         self.remover(chave_antiga)
         self.inserir(animal_atualizado)
 
@@ -184,7 +185,7 @@ class ArvoreAVL:
         :return: O nó correspondente ao animal ou None se não encontrado.
         :rtype: Node or None
         """
-        
+
         return self._consultar(self.raiz, chave)
 
     def _consultar(self, raiz, chave):
@@ -198,7 +199,7 @@ class ArvoreAVL:
         :return: O nó correspondente ao animal ou None se não encontrado.
         :rtype: Node or None
         """
-        
+
         if not raiz or raiz.chave == chave:
             return raiz
         elif chave < raiz.chave:
@@ -215,11 +216,11 @@ class ArvoreAVL:
         :return: A altura do nó.
         :rtype: int
         """
-        
+
         if not node:
             return 0
         return node.altura
-    
+
     def _atualizar_altura(self, node):
         """
         Atualiza a altura de um nó com base na altura dos seus filhos.
@@ -227,7 +228,7 @@ class ArvoreAVL:
         :param node: O nó cuja altura será atualizada.
         :type node: Node
         """
-        
+
         if not node:
             return 0
         node.altura = 1 + max(self._obter_altura(node.filho_esquerdo), self._obter_altura(node.filho_direito))
@@ -241,7 +242,7 @@ class ArvoreAVL:
         :return: O fator de balanceamento do nó.
         :rtype: int
         """
-        
+
         if not node:
             return 0
         return self._obter_altura(node.filho_esquerdo) - self._obter_altura(node.filho_direito)  # Calcula o fator de balanceamento do nó
@@ -255,7 +256,7 @@ class ArvoreAVL:
         :return: O nó atualizado após a rotação.
         :rtype: Node
         """
-        
+
         filho_direito = node.filho_direito
         neto = filho_direito.filho_esquerdo
 
@@ -279,7 +280,7 @@ class ArvoreAVL:
         :return: O novo nó raiz após a rotação à direita.
         :rtype: Node
         """
-    
+
         filho_esquerdo = node.filho_esquerdo
         neto = filho_esquerdo.filho_direito
 
@@ -300,21 +301,27 @@ class ArvoreAVL:
         :return: O nó com a menor chave na subárvore.
         :rtype: Node
         """
-    
+
         minimo = raiz
         while minimo.filho_esquerdo:
             minimo = minimo.filho_esquerdo
         return minimo
 
-    def inorder_traversal(self, raiz):
+    def inorder_traversal(self) -> None:
+        with StringIO("") as string_stream:
+            self._inorder_traversal(self.raiz, string_stream)
+            print(string_stream.getvalue())
+
+    def _inorder_traversal(self, raiz, string_stream : StringIO):
         """
         Percorre a árvore AVL em ordem (in-order) e imprime as informações dos nós.
 
         :param raiz: O nó raiz da subárvore a ser percorrida.
         :type raiz: Node
         """
-        
         if raiz:
-            self.inorder_traversal(raiz.filho_esquerdo)  # Percorre a subárvore esquerda
-            print(f"ID: {raiz.animal.id} | APELIDO: {raiz.animal.apelido}")  # Imprime as informações do nó
-            self.inorder_traversal(raiz.filho_direito)  # Percorre a subárvore direita
+            self._inorder_traversal(raiz.filho_esquerdo, string_stream)  # Percorre a subárvore esquerda
+            string_stream.write(
+                f"ID: {raiz.animal.id} | APELIDO: {raiz.animal.apelido}\n"
+            )
+            self._inorder_traversal(raiz.filho_direito, string_stream)  # Percorre a subárvore direita
