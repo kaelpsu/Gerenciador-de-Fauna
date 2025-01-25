@@ -1,6 +1,6 @@
 from avl_tree import ArvoreAVL
 from animal import Animal, Historico, Registro
-from ui import *
+import ui
 import json
 
 def consultar_animal(arvore, chave):
@@ -12,14 +12,14 @@ def consultar_animal(arvore, chave):
     :param chave: O ID do animal a ser consultado.
     :type chave: int
     """
-    
+
     node = arvore.consultar(chave)
     if node:
         print("")
         print("Animal encontrado:")
         node.animal.print_info()
     input("Pressione Enter para continuar...")
-    
+
 
 def adicionar_animal(arvore):
     """
@@ -30,32 +30,32 @@ def adicionar_animal(arvore):
     :param arvore: A árvore AVL onde o animal será adicionado.
     :type arvore: ArvoreAVL
     """
-    
+
     while True:
-        id = solicita_id()
-        
+        id = ui.solicita_id()
+
         if not arvore.consultar(id):
             break
-        
+
         print("")
         print("Animal com ID já existente. Por favor, escolha outro ID.")
 
-    apelido = solicita_apelido()
+    apelido = ui.solicita_apelido()
 
-    inicio_monitoramento = solicita_data()
+    inicio_monitoramento = ui.solicita_data()
 
-    especie = solicita_especie()
+    especie = ui.solicita_especie()
 
-    sexo = solicita_sexo()
+    sexo = ui.solicita_sexo()
 
-    data_nascimento = solicita_data_nascimento()
+    data_nascimento = ui.solicita_data_nascimento()
 
     print("")
 
     add_history = input("Deseja adicionar um registro no histórico? (S/N): ")
-    
+
     if add_history.lower() == "s":
-        registro = solicita_registro()
+        registro = ui.solicita_registro()
 
         historico = Historico([registro])
     else:
@@ -77,8 +77,9 @@ def remover_animal(arvore, chave):
     :param chave: O ID do animal a ser removido.
     :type chave: int
     """
-    
-    arvore.remover(chave)
+
+    if not arvore.remover(chave):
+        print("ELemento não encontrado.")
 
 def adicionar_registro(arvore, chave):
     """
@@ -89,9 +90,9 @@ def adicionar_registro(arvore, chave):
     :param chave: O ID do animal ao qual o registro será adicionado.
     :type chave: int
     """
-    
+
     node = arvore.consultar(chave)
-    
+
     if node:
         print("")
         print("Animal encontrado. Informações atuais:")
@@ -101,7 +102,7 @@ def adicionar_registro(arvore, chave):
 
         atualizar_historico = input("Deseja atualizar o histórico? (S/N): ")
         if atualizar_historico.lower() == "s":
-            registro = solicita_registro()
+            registro = ui.solicita_registro()
             node.animal.add_log(registro)
 
 
@@ -114,7 +115,7 @@ def salvar_alteracoes(arvore, save_path):
     :param save_path: O caminho do arquivo onde os dados serão salvos.
     :type save_path: str
     """
-    
+
     with open(save_path, 'w') as file:
         animals = []
 
@@ -129,10 +130,10 @@ def sair():
     """
     Encerra a aplicação.
     """
-    
+
     print("Saindo...")
     exit()
-    
+
 def display_menu(arvore):
     """
     Exibe o menu de opções para o usuário e executa a ação correspondente.
@@ -140,9 +141,9 @@ def display_menu(arvore):
     :param arvore: A árvore AVL onde os animais estão armazenados.
     :type arvore: ArvoreAVL
     """
-    
+
     print("")
-    arvore.inorder_traversal(arvore.raiz)
+    arvore.inorder_traversal()
     print("")
     print("Menu:")
     print("1. Consultar animal")
@@ -177,7 +178,7 @@ def initialize(file_path):
     :param file_path: O caminho do arquivo JSON contendo os dados dos animais.
     :type file_path: str
     """
-    
+
     arvore = ArvoreAVL()
 
     try:
@@ -208,7 +209,7 @@ def initialize(file_path):
                 animal = Animal(id, apelido, inicio_monitoramento, especie, sexo, data_nascimento, historico)
 
                 arvore.inserir(animal)
-                
+
     except FileNotFoundError:
         print("Arquivo não encontrado.")
         exit()
