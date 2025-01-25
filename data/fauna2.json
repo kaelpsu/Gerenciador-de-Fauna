@@ -1,0 +1,170 @@
+{
+    "animals": [
+        {
+            "id": 1,
+            "apelido": "Leo",
+            "inicio_monitoramento": "01/01/2022",
+            "especie": "Lion",
+            "sexo": "M",
+            "data_nascimento": "15/05/2019",
+            "historico": [
+                {
+                    "data_avaliacao": "15/02/2022",
+                    "temperatura": 37.5,
+                    "peso": 150,
+                    "altura": 180,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": null
+                },
+                {
+                    "data_avaliacao": "20/03/2022",
+                    "temperatura": 38.2,
+                    "peso": 148,
+                    "altura": 175,
+                    "amostra": false,
+                    "exame": false,
+                    "problema_de_saude": null
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "apelido": "Molly",
+            "inicio_monitoramento": "01/01/2022",
+            "especie": "Elephant",
+            "sexo": "F",
+            "data_nascimento": "10/10/2015",
+            "historico": [
+                {
+                    "data_avaliacao": "15/02/2022",
+                    "temperatura": 36.8,
+                    "peso": 5000,
+                    "altura": 300,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": null
+                },
+                {
+                    "data_avaliacao": "20/03/2022",
+                    "temperatura": 37.2,
+                    "peso": 4800,
+                    "altura": 290,
+                    "amostra": true,
+                    "exame": false,
+                    "problema_de_saude": "Infecção urinária"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "apelido": "Zara",
+            "inicio_monitoramento": "15/02/2022",
+            "especie": "Zebra",
+            "sexo": "F",
+            "data_nascimento": "12/06/2018",
+            "historico": [
+                {
+                    "data_avaliacao": "10/03/2022",
+                    "temperatura": 37.0,
+                    "peso": 400,
+                    "altura": 140,
+                    "amostra": true,
+                    "exame": true,
+                    "problema_de_saude": null
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "apelido": "Max",
+            "inicio_monitoramento": "20/03/2022",
+            "especie": "Giraffe",
+            "sexo": "M",
+            "data_nascimento": "05/07/2017",
+            "historico": [
+                {
+                    "data_avaliacao": "25/03/2022",
+                    "temperatura": 38.0,
+                    "peso": 800,
+                    "altura": 500,
+                    "amostra": true,
+                    "exame": false,
+                    "problema_de_saude": null
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "apelido": "Luna",
+            "inicio_monitoramento": "01/01/2023",
+            "especie": "Tiger",
+            "sexo": "F",
+            "data_nascimento": "20/12/2020",
+            "historico": []
+        },
+        {
+            "id": 6,
+            "apelido": "Buddy",
+            "inicio_monitoramento": "01/05/2022",
+            "especie": "Kangaroo",
+            "sexo": "M",
+            "data_nascimento": "11/03/2020",
+            "historico": []
+        },
+        {
+            "id": 7,
+            "apelido": "Charlie",
+            "inicio_monitoramento": "10/02/2023",
+            "especie": "Cheetah",
+            "sexo": "M",
+            "data_nascimento": "08/08/2019",
+            "historico": []
+        },
+        {
+            "id": 8,
+            "apelido": "Bella",
+            "inicio_monitoramento": "05/04/2022",
+            "especie": "Panda",
+            "sexo": "F",
+            "data_nascimento": "22/09/2018",
+            "historico": []
+        },
+        {
+            "id": 9,
+            "apelido": "Rocky",
+            "inicio_monitoramento": "12/01/2022",
+            "especie": "Bear",
+            "sexo": "M",
+            "data_nascimento": "01/01/2017",
+            "historico": []
+        },
+        {
+            "id": 10,
+            "apelido": "Coco",
+            "inicio_monitoramento": "20/11/2022",
+            "especie": "Parrot",
+            "sexo": "F",
+            "data_nascimento": "15/02/2021",
+            "historico": []
+        },
+        {
+            "id": 11,
+            "apelido": "Jack",
+            "inicio_monitoramento": "01/03/2023",
+            "especie": "Wolf",
+            "sexo": "M",
+            "data_nascimento": "10/10/2018",
+            "historico": []
+        },
+        {
+            "id": 12,
+            "apelido": "Daisy",
+            "inicio_monitoramento": "01/04/2023",
+            "especie": "Penguin",
+            "sexo": "F",
+            "data_nascimento": "05/05/2020",
+            "historico": []
+        }
+    ]
+}

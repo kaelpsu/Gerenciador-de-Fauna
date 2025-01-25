@@ -142,7 +142,7 @@ def display_menu(arvore):
     """
     
     print("")
-    arvore.inorder_traversal(arvore.raiz)
+    arvore.inorder_traversal()
     print("")
     print("Menu:")
     print("1. Consultar animal")
